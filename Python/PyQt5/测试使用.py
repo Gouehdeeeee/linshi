@@ -1,45 +1,60 @@
 import sys
-from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
-from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import *
 
-
-class Example(QMainWindow):
-
+class MyWindow(QWidget):
     def __init__(self):
-        super().__init__()
+        super(MyWindow, self).__init__()
+        self.setWindowTitle('嵌套布局实例')
 
-        self.initUI()
+        #全局布局（2中）：这里选择水平布局
+        wlayout=QHBoxLayout()
 
+        #局部布局：水平，垂直，网格，表单
+        hlayout=QHBoxLayout()
+        vlayout=QVBoxLayout()
+        glayout=QGridLayout()
+        flayout=QFormLayout()
 
-    def initUI(self):
+        #为局部布局添加控件
+        hlayout.addWidget(QPushButton(str(1)))
+        hlayout.addWidget(QPushButton(str(2)))
 
-        textEdit = QTextEdit()
-        self.setCentralWidget(textEdit)
+        vlayout.addWidget(QPushButton(str(3)))
+        vlayout.addWidget(QPushButton(str(4)))
 
-        exitAct = QAction(QIcon('exit24.png'), 'Exit', self)
-        exitAct.setShortcut('Ctrl+Q')
-        exitAct.setStatusTip('Exit application')
-        exitAct.triggered.connect(self.close)
+        glayout.addWidget(QPushButton(str(5)),0,0)
+        glayout.addWidget(QPushButton(str(6)),0,1)
+        glayout.addWidget(QPushButton(str(7)),1,0)
+        glayout.addWidget(QPushButton(str(8)),1,1)
 
-        self.statusBar()
+        flayout.addWidget(QPushButton(str(9)))
+        flayout.addWidget(QPushButton(str(10)))
+        flayout.addWidget(QPushButton(str(11)))
+        flayout.addWidget(QPushButton(str(12)))
 
-        menubar = self.menuBar()
-        fileMenu = menubar.addMenu('&File')
-        fileMenu.addAction(exitAct)
+        #准备四个控件
+        hwg=QWidget()
+        vwg=QWidget()
+        gwg=QWidget()
+        fwg=QWidget()
 
-        toolbar = self.addToolBar('Exit')
-        toolbar.addAction(exitAct)
+        #使用四个控件设置局部布局
+        hwg.setLayout(hlayout)
+        vwg.setLayout(vlayout)
+        gwg.setLayout(glayout)
+        fwg.setLayout(flayout)
 
-        self.setGeometry(300, 300, 350, 250)
-        self.setWindowTitle('Main window')
-        self.show()
+        #将四个控件添加到全局布局中
+        wlayout.addWidget(hwg)
+        wlayout.addWidget(vwg)
+        wlayout.addWidget(gwg)
+        wlayout.addWidget(fwg)
 
-
-def main():
-    app = QApplication(sys.argv)
-    ex = Example()
-    sys.exit(app.exec_())
-
+        #将窗口本身设置为全局布局
+        self.setLayout(wlayout)
 
 if __name__ == '__main__':
-    main()
+    app=QApplication(sys.argv)
+    win=MyWindow()
+    win.show()
+    sys.exit(app.exec_())
