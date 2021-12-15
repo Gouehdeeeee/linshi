@@ -77,7 +77,7 @@ class MyWindow(QMainWindow):
 
         muBar_view_fullscreen = QAction(self)
         muBar_view_fullscreen.setText("&全屏")
-        muBar_view_fullscreen.setShortcut("Ctrl+P")
+        muBar_view_fullscreen.setShortcut("Ctrl+Alt+;")
         muBar_view_fullscreen.setCheckable(True)
         muBar_view_fullscreen.triggered.connect(fullscreen)
         """实现按键全屏的时候，引发的目标是QMainWindow内置的功能，所以设定的快捷键直接可以使用；"""
@@ -108,12 +108,12 @@ class MyWindow(QMainWindow):
 
         self.setGeometry(625, 245, 1077, 585)
         self.setWindowTitle("实例01")
-        self.setWindowOpacity(1)
+        self.setWindowOpacity(1)  # 窗口美化：不透明度；
 
 
-def fullscreen(state):
+def fullscreen(toggle):
     """这个封装函数是让"切换菜单"切换全屏准备的"""
-    if state:
+    if toggle:
         ex.showFullScreen()  # 全屏显示方法
     else:
         ex.showNormal()  # 正常显示方法
